@@ -4,7 +4,7 @@
     <section class="collection">
       <div class="collection__item"></div>
       <div class="collection__item collection__heading">
-        <h1>spectacles women</h1>
+        <h1>{{ selectedCollection }}</h1>
       </div>
       <div class="collection__item collection__filter">
         <!-- <button>colour</button> -->
@@ -27,6 +27,12 @@
 <script setup>
 import AppNavbar from "../components/AppNavbar.vue";
 import BaseButton from "../components/BaseButton.vue";
+
+import { storeToRefs } from "pinia";
+import { useCollectionsStore } from "@/stores/collection";
+
+const store = useCollectionsStore();
+const { selectedCollection } = storeToRefs(store);
 </script>
 
 <style scoped>

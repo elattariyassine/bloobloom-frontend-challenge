@@ -1,13 +1,12 @@
 <template>
   <nav class="header">
-    <div
-      @mouseenter="open = true"
-      @mouseleave="open = false"
-      class="header__side-menu"
-      :class="{ 'header__side-menu-open': open }"
-    ></div>
+    <AppNavbarSideMenu
+      :isOpen="isOpen"
+      @slideIn="isOpen = true"
+      @slideOut="isOpen = false"
+    />
     <div class="css">
-      <BaseButton @mouseenter="open = true" @mouseleave="open = false">
+      <BaseButton @mouseenter="isOpen = true" @mouseleave="isOpen = false">
         menu
       </BaseButton>
       <div class="header__logo">
@@ -22,50 +21,10 @@
 
 <script setup>
 import BaseButton from "./BaseButton.vue";
+import AppNavbarSideMenu from "./AppNavbarSideMenu.vue";
 import { ref } from "vue";
 
-const open = ref(true);
-
-const sideMenuItems = [
-  {
-    text: "women",
-    menu: [
-      {
-        isGoBack: true,
-      },
-      {
-        text: "spectacles",
-        link: "#",
-      },
-      {
-        text: "sunglasses",
-        link: "#",
-      },
-    ],
-  },
-  {
-    text: "men",
-    menu: [
-      {
-        isGoBack: true,
-      },
-      {
-        text: "spectacles",
-        link: "#",
-      },
-      {
-        text: "sunglasses",
-        link: "#",
-      },
-    ],
-  },
-  {
-    text: "home try on",
-  },
-  {
-    text: "free eye test",
-  },
-];
+const isOpen = ref(false);
 </script>
 
 <style scoped>
@@ -90,23 +49,5 @@ const sideMenuItems = [
 .header__logo img {
   width: 25px;
   height: 25px;
-}
-
-.header__side-menu {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  width: 481px;
-  background: #fff;
-  height: calc(100vh - 50px);
-  top: 50px;
-  left: -481px;
-  transition: all 400ms ease;
-  z-index: 100;
-}
-
-.header__side-menu-open {
-  left: 0;
-  border-right: 1px solid #000;
 }
 </style>
