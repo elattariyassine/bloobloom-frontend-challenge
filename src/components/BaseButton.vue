@@ -1,6 +1,17 @@
 <template>
-  <button>menu</button>
+  <button :class="{ 'border-right': borderRight }">
+    <slot></slot>
+  </button>
 </template>
+
+<script setup>
+defineProps({
+  borderRight: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
 
 <style scoped>
 button {
@@ -10,5 +21,8 @@ button {
   cursor: pointer;
   text-transform: uppercase;
   height: 100%;
+}
+.border-right {
+  border-right: 1px solid #000;
 }
 </style>

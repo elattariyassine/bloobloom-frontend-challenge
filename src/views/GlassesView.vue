@@ -7,8 +7,10 @@
         <h1>spectacles women</h1>
       </div>
       <div class="collection__item collection__filter">
-        <button>colour</button>
-        <button>shape</button>
+        <!-- <button>colour</button> -->
+        <!-- <button>shape</button> -->
+        <BaseButton borderRight>colour</BaseButton>
+        <BaseButton borderRight>shape</BaseButton>
       </div>
       <!-- <div class="collection__item">1</div>
       <div class="collection__item">1</div>
@@ -24,6 +26,7 @@
 
 <script setup>
 import AppNavbar from "../components/AppNavbar.vue";
+import BaseButton from "../components/BaseButton.vue";
 </script>
 
 <style scoped>
@@ -57,14 +60,6 @@ main {
   font-family: serif;
   text-transform: uppercase;
   font-weight: 900;
-}
-
-.collection__item button {
-  background-color: transparent;
-  border: none;
-  width: 120px;
-  text-transform: uppercase;
-  cursor: pointer;
 }
 
 .collection__filter {
