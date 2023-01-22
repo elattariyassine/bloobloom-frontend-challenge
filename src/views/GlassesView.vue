@@ -7,19 +7,21 @@
         <h1>{{ selectedCollection }}</h1>
       </div>
       <div class="collection__item collection__filter">
-        <!-- <button>colour</button> -->
-        <!-- <button>shape</button> -->
         <BaseButton borderRight>colour</BaseButton>
         <BaseButton borderRight>shape</BaseButton>
       </div>
-      <!-- <div class="collection__item">1</div>
-      <div class="collection__item">1</div>
-      <div class="collection__item">1</div>
-      <div class="collection__item">1</div>
-      <div class="collection__item">1</div>
-      <div class="collection__item">1</div>
-      <div class="collection__item">1</div>
-      <div class="collection__item">1</div> -->
+    </section>
+    <section
+      class="collection"
+      ref="scrollComponent"
+      v-if="collection.list.length > 0"
+    >
+      <CollectionItemCard
+        class="collection__item--glasses"
+        v-for="item in collection.list"
+        :key="item.id"
+        :item="item"
+      />
     </section>
   </main>
 </template>
@@ -27,12 +29,31 @@
 <script setup>
 import AppNavbar from "../components/AppNavbar.vue";
 import BaseButton from "../components/BaseButton.vue";
+import CollectionItemCard from "../components/CollectionItemCard.vue";
 
+import { ref, onMounted, onUnmounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useCollectionsStore } from "@/stores/collection";
 
+const scrollComponent = ref(null);
+
 const store = useCollectionsStore();
-const { selectedCollection } = storeToRefs(store);
+const { selectedCollection, collection } = storeToRefs(store);
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+const handleScroll = (e) => {
+  let element = scrollComponent.value;
+  if (element.getBoundingClientRect().bottom === window.innerHeight) {
+    store.fetchCollection();
+  }
+};
+
+store.fetchCollection();
 </script>
 
 <style scoped>
@@ -42,13 +63,18 @@ main {
 .collection {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 }
 
 .collection__item {
   height: 60px;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.collection__item--glasses {
+  height: 370px;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }

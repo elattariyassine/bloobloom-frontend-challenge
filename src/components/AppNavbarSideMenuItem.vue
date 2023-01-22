@@ -48,11 +48,11 @@ const handleClick = (menu, link) => {
   if (!link.navigateBack) {
     console.log("say hi");
 
-    // store.selectCollection(link.key);
-    console.log(
-      "🚀 ~ file: AppNavbarSideMenuItem.vue:52 ~ handleClick ~ link.key",
-      link.key
-    );
+    store.selectCollection(link.key);
+    // console.log(
+    //   "🚀 ~ file: AppNavbarSideMenuItem.vue:52 ~ handleClick ~ link.key",
+    //   link.key
+    // );
   }
 };
 
