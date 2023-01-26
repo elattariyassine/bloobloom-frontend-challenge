@@ -1,6 +1,8 @@
 <template>
   <main>
+    <!-- Navbar -->
     <AppNavbar />
+    <!-- Selected collection & filter -->
     <section class="collection">
       <div class="collection__item"></div>
       <div class="collection__item collection__heading">
@@ -16,47 +18,11 @@
         </div>
       </div>
     </section>
-    <section class="filter" :class="{ 'filter--open': isFilterOpened }">
-      <div>
-        <div style="display: flex; height: 60px">
-          <div
-            style="
-              flex-grow: 1;
-              text-align: center;
-              border-right: 1px solid #000;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            "
-          >
-            colour
-          </div>
-          <div
-            style="
-              flex-grow: 1;
-              text-align: center;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            "
-          >
-            shape
-          </div>
-        </div>
-        <div></div>
-        <div
-          style="
-            height: 60px;
-            border-top: 1px solid #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          "
-        >
-          {{ collection.totalCount }} RESULTS FOUND
-        </div>
-      </div>
-    </section>
+    <AppFilter
+      :isFilterOpened="isFilterOpened"
+      :totalCount="collection.totalCount"
+    />
+    <!-- Glasses Grid -->
     <section
       class="collection"
       ref="scrollComponent"
@@ -75,6 +41,7 @@
 <script setup>
 import AppNavbar from "../components/AppNavbar.vue";
 import CollectionItemCard from "../components/CollectionItemCard.vue";
+import AppFilter from "../components/AppFilter.vue";
 
 import { AdjustmentsVerticalIcon } from "@heroicons/vue/24/solid";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -147,21 +114,5 @@ main {
   height: 100%;
   margin-left: 20px;
   cursor: pointer;
-}
-
-.filter {
-  overflow: hidden;
-  display: block;
-  flex-direction: column;
-  width: 100%;
-  max-height: 0;
-  align-items: center;
-  justify-content: center;
-  transition: all 500ms ease 0ms;
-  position: relative;
-}
-.filter--open {
-  max-height: 400px !important;
-  border-bottom: 1px solid #000;
 }
 </style>

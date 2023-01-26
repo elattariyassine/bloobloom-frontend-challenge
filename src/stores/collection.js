@@ -1,4 +1,4 @@
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const useCollectionsStore = defineStore("collections", () => {
@@ -11,13 +11,72 @@ export const useCollectionsStore = defineStore("collections", () => {
     totalCount: null,
   });
 
+  const filters = ref({
+    colors: [
+      {
+        name: "Black",
+        imageUrl:
+          "https://d32y5z2afvomc1.cloudfront.net/assets/filters_black_01.png",
+        isSelected: false,
+      },
+      {
+        name: "Tortoise",
+        imageUrl:
+          "https://d32y5z2afvomc1.cloudfront.net/assets/filters_tortoise_02.png",
+        isSelected: false,
+      },
+      {
+        name: "Coloured",
+        imageUrl:
+          "https://d32y5z2afvomc1.cloudfront.net/assets/filters_coloured_03.png",
+        isSelected: false,
+      },
+      {
+        name: "Crystal",
+        imageUrl:
+          "https://d32y5z2afvomc1.cloudfront.net/assets/filters_crystal_04.png",
+        isSelected: false,
+      },
+      {
+        name: "Dark",
+        imageUrl:
+          "https://d32y5z2afvomc1.cloudfront.net/assets/filters_dark_05.png",
+        isSelected: false,
+      },
+      {
+        name: "Bright",
+        imageUrl:
+          "https://d32y5z2afvomc1.cloudfront.net/assets/filters_bright_06.png",
+        isSelected: false,
+      },
+    ],
+    shapes: [
+      { name: "Square", isSelected: false },
+      { name: "Rectangle", isSelected: false },
+      { name: "Round", isSelected: false },
+      { name: "Cat-eye", isSelected: false },
+    ],
+  });
+
+  const clearFilter = () => {
+    Object.keys(filters.value).forEach((filter) =>
+      filters.value[filter].forEach((item) => (item.isSelected = false))
+    );
+  };
+
+  const selectedColors = computed(() =>
+    filters.value.colors.filter((color) => color.isSelected)
+  );
+
+  const selectedShapes = computed(() =>
+    filters.value.shapes.filter((shape) => shape.isSelected)
+  );
+
   const selectCollection = (payload) => (selectedCollection.value = payload);
 
   const fetchCollection = async () => {
-    console.log("🚀 ~ file: collection.js:18 ~ fetchCollection ~ collection.list.length", collection.list.length)
-    console.log("🚀 ~ file: collection.js:19 ~ fetchCollection ~ collection.list.totalCount", collection.totalCount)
     if (collection.list.length === collection.totalCount) {
-      return
+      return;
     }
 
     collection.isFetching = true;
@@ -50,5 +109,14 @@ export const useCollectionsStore = defineStore("collections", () => {
     }
   });
 
-  return { selectedCollection, selectCollection, fetchCollection, collection };
+  return {
+    selectedCollection,
+    selectCollection,
+    fetchCollection,
+    collection,
+    filters,
+    selectedColors,
+    selectedShapes,
+    clearFilter,
+  };
 });
