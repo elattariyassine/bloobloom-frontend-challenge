@@ -11,10 +11,14 @@
       <div class="collection__item">
         <div
           class="collection__filter"
+          style="position: relative"
           @click="isFilterOpened = !isFilterOpened"
         >
           <h3 style="text-transform: uppercase; font-weight: 600">filters</h3>
           <AdjustmentsVerticalIcon style="width: 30px" />
+          <div class="collection__filter__count">
+            {{ collection.selectedFilterCount }}
+          </div>
         </div>
       </div>
     </section>
@@ -66,8 +70,6 @@ const handleScroll = () => {
     store.fetchCollection();
   }
 };
-
-store.fetchCollection();
 </script>
 
 <style scoped>
@@ -114,5 +116,27 @@ main {
   height: 100%;
   margin-left: 20px;
   cursor: pointer;
+  width: fit-content;
+}
+
+.collection__filter__count {
+  z-index: 1;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top: 10px;
+  right: -3px;
+  height: 18px;
+  width: 18px;
+  border-radius: 100%;
+  background: #fff;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 60px;
+  text-align: center;
+  color: #000;
 }
 </style>

@@ -9,7 +9,10 @@ export const useCollectionsStore = defineStore("collections", () => {
     currentPage: 0,
     isFetching: false,
     totalCount: null,
+    selectedFilterCount: 0,
   });
+
+  const filter = ref(null);
 
   const filters = ref({
     colors: [
@@ -62,6 +65,7 @@ export const useCollectionsStore = defineStore("collections", () => {
     Object.keys(filters.value).forEach((filter) =>
       filters.value[filter].forEach((item) => (item.isSelected = false))
     );
+    filter.value = null;
   };
 
   const selectedColors = computed(() =>
@@ -89,7 +93,7 @@ export const useCollectionsStore = defineStore("collections", () => {
       page[limit]=12&page[number]=${collection.currentPage}&\
       filters[lens_variant_prescriptions][]=fashion&\
       filters[lens_variant_types][]=classic&\
-      filters[frame_variant_home_trial_available]=false`;
+      filters[frame_variant_home_trial_available]=false&${filter.value}`;
 
     const response = await fetch(apiUrl.replace(/\s/g, ""));
 
@@ -100,14 +104,57 @@ export const useCollectionsStore = defineStore("collections", () => {
     collection.isFetching = false;
   };
 
-  watch(selectedCollection, async (newCollection, oldCollection) => {
-    if (newCollection !== oldCollection) {
-      selectedCollection.value = newCollection;
+  const formatFilter = (params, type) => {
+    let url = "";
+    params.forEach((param) => {
+      url += `filters[glass_variant_frame_variant_${type}_tag_configuration_names][]=${param.name.toLowerCase()}&`;
+    });
+
+    return url;
+  };
+
+  const uncheckItem = (itemName) => {
+    Object.keys(filters.value).forEach((filter) =>
+      filters.value[filter].forEach((item) =>  {
+        if (item.name === itemName) {
+          item.isSelected = false
+        }
+      })
+    );
+  }
+
+  watch(
+    selectedCollection,
+    async (newCollection, oldCollection) => {
+      if (newCollection !== oldCollection) {
+        selectedCollection.value = newCollection;
+        collection.currentPage = 0;
+        collection.list = [];
+        fetchCollection();
+      }
+    },
+    { immediate: true }
+  );
+
+  watch(
+    filters,
+    async (newFilter) => {
+      const chosenColors = newFilter.colors.filter((color) => color.isSelected);
+      const chosenShapes = newFilter.shapes.filter((shape) => shape.isSelected);
+
+      filter.value =
+        formatFilter(chosenColors, "colour") +
+        formatFilter(chosenShapes, "frame");
+
       collection.currentPage = 0;
       collection.list = [];
-      fetchCollection();
-    }
-  });
+      collection.selectedFilterCount =
+        chosenColors.length + chosenShapes.length;
+
+      await fetchCollection();
+    },
+    { deep: true }
+  );
 
   return {
     selectedCollection,
@@ -118,5 +165,6 @@ export const useCollectionsStore = defineStore("collections", () => {
     selectedColors,
     selectedShapes,
     clearFilter,
+    uncheckItem,
   };
 });

@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="filter__panel">
-        <div class="filter__panel--header">color</div>
+        <div class="filter__panel--header">shape</div>
         <div class="filter__panel--body">
           <AppFilterShape :data="filters.shapes" />
         </div>
@@ -20,6 +20,7 @@
           v-for="(filter, index) in selectedFilters"
           :key="index"
           :text="filter"
+          @click="uncheckFilter(filter)"
         />
       </div>
       <div class="filter__content--item text-center">
@@ -58,6 +59,8 @@ const selectedFilters = computed(() => [
   ...store.selectedColors.map((color) => color.name),
   ...store.selectedShapes.map((shape) => shape.name),
 ]);
+
+const uncheckFilter = (item) => store.uncheckItem(item);
 </script>
 
 <style scoped>
