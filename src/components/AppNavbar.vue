@@ -6,13 +6,16 @@
       @slideOut="isOpen = false"
     />
     <div class="header__main">
-      <BaseButton
-        @mouseenter="isOpen = true"
-        @mouseleave="isOpen = false"
-        class="menu-button"
-      >
-        menu
-      </BaseButton>
+      <div @click="isOpen = !isOpen">
+        <BaseButton
+          @mouseenter="isOpen = true"
+          @mouseleave="isOpen = false"
+          class="menu-button"
+        >
+          <!-- @click="isOpen = !isOpen" -->
+          menu
+        </BaseButton>
+      </div>
       <div class="header__logo">
         <img
           src="https://avatars.githubusercontent.com/u/630302?s=200&v=4"

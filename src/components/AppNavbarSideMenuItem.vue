@@ -41,14 +41,6 @@ const emit = defineEmits(["slideOut"]);
 const store = useCollectionsStore();
 
 const handleClick = (menu, link) => {
-  console.log(
-    "🚀 ~ file: AppNavbarSideMenuItem.vue:44 ~ handleClick ~ link",
-    link
-  );
-  console.log(
-    "🚀 ~ file: AppNavbarSideMenuItem.vue:44 ~ handleClick ~ menu",
-    menu
-  );
   if (link.navigateBack) {
     menu.isOpen = false;
   }
