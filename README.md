@@ -11,7 +11,7 @@ My implementation of Bloobloom frontend challenge.
 - [x] Color & shape filters (select multiple values per filter and select multiple filters
       simultaneously).
 - [x] Menu Interface.
-- [x] Responsive (80%).
+- [x] Responsive.
 
 ## Missing features (Lack of time)
 
