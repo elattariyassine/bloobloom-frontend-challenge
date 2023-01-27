@@ -1,14 +1,30 @@
-# bloobloom-frontend-challenge
+![](Bloobloom-frontend-challenge.png)
 
-This template should help get you started developing with Vue 3 in Vite.
+## Bloobloom frontend challenge
 
-## Recommended IDE Setup
+My implementation of Bloobloom frontend challenge.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Implemented features
 
-## Customize configuration
+- [x] Glasses View (view lists all glasses for a given collection. It has an infinite scroll function
+      with each chunk having 12 items.).
+- [x] Color & shape filters (select multiple values per filter and select multiple filters
+      simultaneously).
+- [x] Menu Interface.
+- [x] Responsive (80%).
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Missing features (Lack of time)
+
+- [x] Mobile filter.
+- [x] Gallery animation
+
+## Used technologies & libraries
+
+- Vite 4.x
+- Vue 3.x
+- Vue-router 4.x
+- Pinia 2.x
+- @heroicons/vue 2.x
 
 ## Project Setup
 
