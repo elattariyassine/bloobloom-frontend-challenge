@@ -9,6 +9,7 @@
       v-for="(menu, index) in sideMenuItems"
       :key="index"
       :menu="menu"
+      @slideOut="emit('slideOut')"
     />
   </div>
 </template>
@@ -75,15 +76,20 @@ const sideMenuItems = ref([
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 481px;
+  width: 100%;
   background: #fff;
   height: calc(100vh - 50px);
   top: 50px;
   left: -481px;
   transition: all 400ms ease;
   z-index: 100;
+  border-left: 1px solid #000;
 }
-
+@media (min-width: 768px) {
+  .header__side-menu {
+    width: 481px;
+  }
+}
 .header__side-menu-open {
   left: 0;
   border-right: 1px solid #000;

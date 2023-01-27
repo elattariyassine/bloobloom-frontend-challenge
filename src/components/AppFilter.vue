@@ -26,7 +26,11 @@
       <div class="filter__content--item text-center">
         {{ totalCount }} RESULTS FOUND
       </div>
-      <div class="filter__content--item text-right" @click="store.clearFilter">
+      <div
+        class="filter__content--item text-right"
+        @click="store.clearFilter"
+        v-if="filterCount > 0"
+      >
         clear filter
       </div>
     </div>
@@ -46,6 +50,10 @@ const props = defineProps({
     required: true,
   },
   totalCount: {
+    type: Number,
+    required: true,
+  },
+  filterCount: {
     type: Number,
     required: true,
   },
@@ -75,6 +83,7 @@ const uncheckFilter = (item) => store.uncheckItem(item);
   transition: all 500ms ease 0ms;
   position: relative;
 }
+
 .filter--open {
   max-height: 400px !important;
   border-bottom: 1px solid #000;
@@ -108,7 +117,6 @@ const uncheckFilter = (item) => store.uncheckItem(item);
   height: 60px;
   border-top: 1px solid #000;
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   padding: 0 20px;
 }
@@ -119,21 +127,10 @@ const uncheckFilter = (item) => store.uncheckItem(item);
   height: 100px;
 }
 
-.filter__data--item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  text-align: center;
-  border-right: 1px solid #000;
-  width: 50%;
-}
-.filter__content--items {
-  display: flex;
-}
 .filter__content--item {
   width: 33%;
 }
+
 .filter__content:first-child {
 }
 </style>

@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <AppNavbar />
     <!-- Selected collection & filter -->
-    <section class="collection">
+    <section class="collection collection__type">
       <div class="collection__item"></div>
       <div class="collection__item collection__heading">
         <h1>{{ selectedCollection }}</h1>
@@ -11,12 +11,11 @@
       <div class="collection__item">
         <div
           class="collection__filter"
-          style="position: relative"
           @click="isFilterOpened = !isFilterOpened"
         >
-          <h3 style="text-transform: uppercase; font-weight: 600">filters</h3>
-          <AdjustmentsVerticalIcon style="width: 30px" />
-          <div class="collection__filter__count">
+          <h3 class="collection__filter--heading">filters</h3>
+          <AdjustmentsVerticalIcon class="collection__filter--icon" />
+          <div class="collection__filter--count">
             {{ collection.selectedFilterCount }}
           </div>
         </div>
@@ -25,6 +24,7 @@
     <AppFilter
       :isFilterOpened="isFilterOpened"
       :totalCount="collection.totalCount"
+      :filterCount="collection.selectedFilterCount"
     />
     <!-- Glasses Grid -->
     <section
@@ -39,6 +39,10 @@
         :item="item"
       />
     </section>
+    <Loader
+      v-if="collection.isFetching"
+      :class="{ 'mt-100px': collection.list.length === 0 }"
+    />
   </main>
 </template>
 
@@ -46,6 +50,7 @@
 import AppNavbar from "../components/AppNavbar.vue";
 import CollectionItemCard from "../components/CollectionItemCard.vue";
 import AppFilter from "../components/AppFilter.vue";
+import Loader from "../components/Loader.vue";
 
 import { AdjustmentsVerticalIcon } from "@heroicons/vue/24/solid";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -76,11 +81,45 @@ const handleScroll = () => {
 main {
   width: 100%;
 }
+
 .collection {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  border-left: 1px solid black;
+}
+
+.collection__type .collection__item:first-of-type {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .collection {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .collection__type {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .collection__heading h1 {
+    font-weight: 700;
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .collection {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .collection__type .collection__item:first-of-type {
+    display: block;
+  }
+  .collection__heading h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+  }
 }
 
 .collection__item {
@@ -105,9 +144,13 @@ main {
 }
 
 .collection__heading h1 {
-  font-family: serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21.6px;
+  text-align: center;
   text-transform: uppercase;
-  font-weight: 900;
+  color: #000;
 }
 
 .collection__filter {
@@ -117,9 +160,11 @@ main {
   margin-left: 20px;
   cursor: pointer;
   width: fit-content;
+  margin-left: auto;
+  margin-right: 30px;
 }
 
-.collection__filter__count {
+.collection__filter--count {
   z-index: 1;
   display: flex;
   position: absolute;
@@ -138,5 +183,18 @@ main {
   line-height: 60px;
   text-align: center;
   color: #000;
+}
+
+.collection__filter--heading {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.collection__filter--icon {
+  width: 30px;
+}
+
+.mt-100px {
+  margin-top: 100px;
 }
 </style>

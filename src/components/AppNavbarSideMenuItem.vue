@@ -1,5 +1,5 @@
 <template>
-  <div class="list-item" @click="tests(menu)">
+  <div class="list-item" @click="handleMenuItemsClick(menu)">
     <span>{{ menu.text }}</span>
     <ChevronRightIcon class="liste-item__icon" v-if="menu.children" />
     <div
@@ -36,32 +36,34 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["slideIn", "slideOut"]);
+const emit = defineEmits(["slideOut"]);
 
 const store = useCollectionsStore();
 
 const handleClick = (menu, link) => {
+  console.log(
+    "🚀 ~ file: AppNavbarSideMenuItem.vue:44 ~ handleClick ~ link",
+    link
+  );
+  console.log(
+    "🚀 ~ file: AppNavbarSideMenuItem.vue:44 ~ handleClick ~ menu",
+    menu
+  );
   if (link.navigateBack) {
     menu.isOpen = false;
   }
 
   if (!link.navigateBack) {
-    console.log("say hi");
-
     store.selectCollection(link.key);
-    // console.log(
-    //   "🚀 ~ file: AppNavbarSideMenuItem.vue:52 ~ handleClick ~ link.key",
-    //   link.key
-    // );
+    if (window.innerWidth < 768) {
+      menu.isOpen = false;
+      emit("slideOut");
+    }
   }
 };
 
-const tests = (menu) => {
+const handleMenuItemsClick = (menu) => {
   if (menu.children) {
-    console.log(
-      "🚀 ~ file: AppNavbarSideMenuItem.vue:60 ~ tests ~ menu",
-      menu.children
-    );
     menu.isOpen = true;
   }
 };
@@ -98,13 +100,20 @@ const tests = (menu) => {
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 481px;
+  width: 100%;
   background: #fff;
   height: calc(100vh - 50px);
   top: 50px;
   left: -481px;
   transition: all 400ms ease;
   z-index: 200;
+  border-left: 1px solid #000;
+}
+
+@media (min-width: 768px) {
+  .list-item__links {
+    width: 481px;
+  }
 }
 
 .list-item__links--open {

@@ -8,9 +8,7 @@
     <div class="filter-badge__content" :class="{ isActive: color.isSelected }">
       <div
         class="filter-badge__content__image"
-        :style="{
-          backgroundImage: 'url(' + color.imageUrl + ')',
-        }"
+        :style="{ backgroundImage: `url(${color.imageUrl})` }"
       ></div>
     </div>
     <span>{{ color.name }}</span>

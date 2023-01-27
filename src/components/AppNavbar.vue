@@ -5,8 +5,12 @@
       @slideIn="isOpen = true"
       @slideOut="isOpen = false"
     />
-    <div class="css">
-      <BaseButton @mouseenter="isOpen = true" @mouseleave="isOpen = false">
+    <div class="header__main">
+      <BaseButton
+        @mouseenter="isOpen = true"
+        @mouseleave="isOpen = false"
+        class="menu-button"
+      >
         menu
       </BaseButton>
       <div class="header__logo">
@@ -38,16 +42,36 @@ const isOpen = ref(false);
   box-sizing: border-box;
 }
 
-.css {
+.header__main {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  width: 50%;
+  width: 100%;
+}
+
+.header__logo {
+  margin-right: 16px;
 }
 
 .header__logo img {
   width: 25px;
   height: 25px;
+}
+
+.menu-button {
+  border-right: 1px solid black;
+}
+
+@media (min-width: 768px) {
+  .header__main {
+    width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .header__logo {
+    margin-right: 0;
+  }
 }
 </style>
