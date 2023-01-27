@@ -1,57 +1,29 @@
 <template>
-  <div
-    class=""
-    style="display: flex; flex-direction: column; position: relative"
-  >
-    <div
-      style="
-        position: absolute;
-        z-index: 50;
-        top: 20px;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-family: serif;
-        text-transform: uppercase;
-        font-weight: bold;
-        font-size: 20px;
-      "
-    >
+  <div class="container">
+    <div class="container__header">
       <span>
         {{ item.name }}
       </span>
-      <span style="margin-left: 10px; font-weight: normal">
+      <span class="container__header__variant-name">
         {{ variantName }}
       </span>
     </div>
-
     <div
       class="glass-card"
-      style="height: 100%; flex-grow: 1"
       :style="{
-        backgroundImage:
-          'url(' + item.glass_variants[indexe].media[0]?.url + ')',
+        backgroundImage: `url(${item.glass_variants[variantIndex].media[0]?.url})`,
       }"
-    ></div>
-    <div style="display: flex; flex-direction: row">
+    >
+      <GalleryNavigator @previous="previous" @next="next" />
+    </div>
+    <div class="container__body">
       <div
         v-for="(variant, index) in item.glass_variants"
         :key="index"
-        class="footer__color__button"
-        :style="{
-          'background-image': `url(${variant.frame_variant.colour.media[0].url})`,
-        }"
-        style="
-          height: 50px;
-          flex-grow: 1;
-          background-size: cover;
-          cursor: pointer;
-          border-top: 1px solid #000;
-          border-right: 1px solid #000;
-        "
         @click="selectVariant(variant, index)"
+        :style="{
+          backgroundImage: `url(${variant.frame_variant.colour.media[0].url})`,
+        }"
       ></div>
     </div>
   </div>
@@ -59,69 +31,85 @@
 
 <script setup>
 import { ref } from "vue";
-defineProps({
+import GalleryNavigator from "./GalleryNavigator.vue";
+
+const props = defineProps({
   item: {
     type: Object,
     required: true,
   },
 });
 
-const indexe = ref(0);
+const variantIndex = ref(0);
 const variantName = ref("");
 
 const selectVariant = (variant, index) => {
-  console.log(
-    "🚀 ~ file: CollectionItemCard.vue:33 ~ selectVariant ~ variant",
-    variant
-  );
-  indexe.value = index;
+  variantIndex.value = index;
   variantName.value = variant.frame_variant.colour.name;
+};
+
+const next = () => {
+  if (props.item.glass_variants[variantIndex.value + 1]?.media[0]?.url) {
+    variantIndex.value++;
+  } else {
+    variantIndex.value = 0;
+  }
+};
+
+const previous = () => {
+  if (props.item.glass_variants[variantIndex.value - 1]?.media[0]?.url) {
+    variantIndex.value--;
+  } else {
+    variantIndex.value = props.item.glass_variants.length - 1;
+  }
 };
 </script>
 
 <style scoped>
 .glass-card {
+  height: 100%;
+  flex-grow: 1;
   background-size: cover;
   background-position: center;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
-/* @keyframes namechange {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.container__header {
+  position: absolute;
+  z-index: 50;
+  top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 20px;
 }
 
-.enter-active {
-  animation-duration: 0.2s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: 1;
-  animation-fill-mode: none;
-  animation-play-state: running;
-  animation-name: namechange;
-  animation-direction: normal;
+.container__header__variant-name {
+  margin-left: 10px;
+  font-weight: normal;
 }
-.leave-active {
-  animation-duration: 0.2s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: 1;
-  animation-fill-mode: none;
-  animation-play-state: running;
-  animation-name: namechange;
-  animation-direction: reverse;
-} */
+
+.container__body {
+  display: flex;
+  flex-direction: row;
+}
+
+.container__body div {
+  height: 50px;
+  flex-grow: 1;
+  background-size: cover;
+  cursor: pointer;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+}
 </style>
