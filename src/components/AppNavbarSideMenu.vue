@@ -69,6 +69,8 @@ const sideMenuItems = ref([
     text: "free eye test",
   },
 ]);
+
+defineExpose({ sideMenuItems });
 </script>
 
 <style scoped>

@@ -4,15 +4,15 @@
       :isOpen="isOpen"
       @slideIn="isOpen = true"
       @slideOut="isOpen = false"
+      ref="navbarSideMenu"
     />
     <div class="header__main">
-      <div @click="isOpen = !isOpen">
+      <div @click="handleMenuClick">
         <BaseButton
           @mouseenter="isOpen = true"
           @mouseleave="isOpen = false"
           class="menu-button"
         >
-          <!-- @click="isOpen = !isOpen" -->
           menu
         </BaseButton>
       </div>
@@ -32,6 +32,13 @@ import AppNavbarSideMenu from "./AppNavbarSideMenu.vue";
 import { ref } from "vue";
 
 const isOpen = ref(false);
+const navbarSideMenu = ref(null);
+
+const handleMenuClick = () => {
+  navbarSideMenu.value.sideMenuItems[0].isOpen = false;
+  navbarSideMenu.value.sideMenuItems[1].isOpen = false;
+  isOpen.value = !isOpen.value;
+};
 </script>
 
 <style scoped>
@@ -51,6 +58,10 @@ const isOpen = ref(false);
   justify-content: space-between;
   height: 100%;
   width: 100%;
+}
+
+.header__main div:first-of-type {
+  height: 100%;
 }
 
 .header__logo {
